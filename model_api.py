@@ -1,3 +1,5 @@
+# model_api.py
+
 from fastapi import FastAPI, File, UploadFile
 from tensorflow.keras.models import load_model
 import numpy as np
@@ -18,6 +20,7 @@ loaded_model = load_model('h5_model.h5')
 async def predict(image: UploadFile = File(...)):
     contents = await image.read()
     loaded_image = Image.open(BytesIO(contents))
-    loaded_image = np.expand_dims(loaded_image, axis=0)
-    prediction = np.argmax(model.predict(loaded_image))
+    loaded_image = np.expand_dims(loaded_image, axis=0) # (1,28,28)
+    loaded_image = loaded_image[..., np.newaxis] # (1,28,28,1)
+    prediction = np.argmax(loaded_model.predict(loaded_image))
     return {"label": str(prediction)}
