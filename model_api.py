@@ -19,6 +19,5 @@ async def predict(image: UploadFile = File(...)):
     contents = await image.read()
     loaded_image = Image.open(BytesIO(contents))
     loaded_image = np.expand_dims(loaded_image, axis=0)
-    loaded_image = loaded_image[..., np.newaxis] # (1,28,28,1)
-    prediction = np.argmax(loaded_model.predict(loaded_image))
+    prediction = np.argmax(model.predict(loaded_image))
     return {"label": str(prediction)}
