@@ -26,3 +26,12 @@ sample_input_array = np.array([sample_input])
 predictions = loaded_model.predict(sample_input_array)
 prediction = np.argmax(predictions[0])
 print(f'실제값: {sample_target} - 예측값: {prediction}')
+
+# 이미지 입력
+import cv2
+
+sample_image = input_train[0]
+sample_image.reshape(28, 28)
+
+# 결과
+img = cv2.imwrite( "mnist_sample.jpg", (sample_image + 0.5) * 255)
